@@ -1,0 +1,768 @@
+:root {
+    --color-primario-azul: #007BFF; /* Azul principal */
+    --color-fondo-crema: #F8F9FA;   /* Fondo general */
+    --color-destacado-oro: #FFD700; /* Para botones y resaltados */
+    --color-azul-marino: #003366;   /* Azul oscuro para texto */
+    --color-texto-principal: #333;  /* Texto oscuro */
+    --color-blanco: #fff;           /* Blanco */
+    --fuente-encabezados: 'Georgia', serif;
+    --fuente-cuerpo: 'Helvetica', 'Arial', sans-serif;
+}
+
+/* --- Reseteo Básico y Estilos Globales --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--fuente-cuerpo);
+    color: var(--color-texto-principal);
+    background-color: var(--color-fondo-crema);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- Encabezado y Navegación --- */
+.main-header {
+    background-color: rgba(255, 255, 255, 0.9); /* Blanco semitransparente */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: padding 0.3s ease, box-shadow 0.3s ease;
+}
+/* --- Añadido para el efecto de desenfoque de fondo --- */
+@supports ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
+    .main-header {
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+    }
+}
+
+.main-header.scrolled {
+    padding: 0.25rem 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    text-decoration: none;
+    display: block;
+}
+
+.logo img {
+    height: 50px; /* Altura del logo */
+    width: auto;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: var(--color-texto-principal);
+    padding: 0.5rem 0;
+    position: relative;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-primario-azul);
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+.main-nav a.active {
+    color: var(--color-primario-azul);
+    font-weight: bold;
+}
+
+.main-nav a.active::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.main-nav a:hover {
+    color: var(--color-primario-azul);
+}
+
+.main-nav a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* Estilos para el menú desplegable */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--color-blanco);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 0 0 8px 8px;
+    list-style: none;
+    padding: 0.5rem 0;
+    min-width: 200px;
+    z-index: 1001;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li a {
+    padding: 0.75rem 1.5rem;
+    display: block;
+    white-space: nowrap;
+}
+
+.dropdown-menu li a::after {
+    display: none; /* No queremos el efecto de subrayado en el submenú */
+}
+
+.dropdown-toggle i {
+    margin-left: 0.5rem;
+    font-size: 0.8em;
+    transition: transform 0.3s ease;
+}
+
+.dropdown:hover .dropdown-toggle i {
+    transform: rotate(180deg);
+}
+
+/* --- Estilos para los botones destacados en la navegación --- */
+.nav-highlight {
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px; /* Esquinas muy redondeadas para un look moderno */
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.nav-highlight:hover, .nav-highlight:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Botón de Donaciones */
+.btn-donaciones {
+    background-color: var(--color-destacado-oro);
+    color: var(--color-azul-marino);
+}
+.btn-donaciones:hover { color: var(--color-azul-marino); }
+
+/* Botón de Fundación */
+.btn-fundacion {
+    background-color: #89CFF0; /* Azul celeste */
+    color: var(--color-blanco);
+}
+.btn-fundacion:hover { color: var(--color-blanco); }
+
+.nav-highlight:hover::after {
+    transform: scaleX(0); /* Evita el subrayado en botones */
+}
+
+/* --- Botón de Hamburguesa --- */
+.hamburger-menu {
+    display: none; /* Oculto en escritorio */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001; /* Asegura que esté sobre otros elementos */
+}
+
+.hamburger-menu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--color-primario-azul);
+    margin: 5px 0;
+    transition: all 0.3s ease-in-out;
+}
+
+/* --- Secciones de Contenido --- */
+.content-section {
+    padding: 60px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.content-section h2 {
+    font-family: var(--fuente-encabezados);
+    font-size: 2.5rem;
+    color: var(--color-primario-azul);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.content-section p {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* --- Estilos para los Controles de Galería (Filtro y Búsqueda) --- */
+.gallery-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: var(--color-blanco);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* --- Estilos para el Filtro --- */
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-container label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.filter-container select,
+.filter-container input[type="date"] {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+/* --- Estilos para la Barra de Búsqueda --- */
+.search-container input {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    min-width: 250px;
+}
+
+/* --- Estilos para las Tarjetas (Audio, Video, Caravana, etc.) --- */
+.audio-grid, .video-grid, .caravanas-grid, .obras-grid, .proyecto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.audio-card, .video-card, .caravana-card, .obra-card, .proyecto-card {
+    background-color: var(--color-blanco);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.audio-card:hover, .video-card:hover, .caravana-card:hover, .obra-card:hover, .proyecto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.audio-card img, .caravana-card img, .obra-card img, .proyecto-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.audio-content, .video-content, .caravana-content, .obra-content, .proyecto-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.audio-content h3, .video-content h3, .caravana-content h3, .obra-content h3, .proyecto-content h3 {
+    font-family: var(--fuente-encabezados);
+    color: var(--color-primario-azul);
+    margin-bottom: 0.5rem;
+}
+
+.audio-content p, .video-content p, .caravana-content p, .obra-content p, .proyecto-content p {
+    text-align: left !important;
+    margin-bottom: 1rem;
+}
+
+.audio-info, .video-meta, .caravana-info, .obra-info, .proyecto-info {
+    margin-top: auto;
+    padding-top: 1rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.audio-info i, .video-meta i, .caravana-info i, .obra-info i, .proyecto-info i {
+    margin-right: 8px;
+    color: var(--color-primario-azul);
+}
+
+.audio-card audio {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.audio-card.is-playing {
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4), 0 0 0 3px var(--color-primario-azul);
+    transform: translateY(-5px);
+}
+
+.read-reflection-btn {
+    display: inline-block;
+    margin: 0.75rem 0;
+    color: var(--color-primario-azul);
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.video-embed-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+}
+
+.video-embed-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- Estilos Modernos para el Footer --- */
+.main-footer {
+    background: linear-gradient(135deg, #4169E1, #89CFF0); /* Degradado de Azul Real a Celeste */
+    color: var(--color-blanco);
+    padding-top: 4rem;
+    margin-top: 40px; /* Espacio antes del footer */
+}
+
+.footer-grid {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-bottom: 3rem;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 220px;
+}
+
+.footer-column h4 {
+    font-family: var(--fuente-encabezados);
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-destacado-oro);
+    position: relative;
+}
+
+.footer-column h4::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 40px;
+    height: 2px;
+    background-color: var(--color-destacado-oro);
+}
+
+.footer-logo {
+    height: 60px;
+    margin-bottom: 1rem;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.footer-about p {
+    color: #f0f8ff; /* AliceBlue, un blanco muy suave */
+    line-height: 1.7;
+}
+
+.footer-links ul, .footer-contact p {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-links a, .footer-contact a {
+    color: #f0f8ff; /* AliceBlue */
+    text-decoration: none;
+    transition: color 0.3s ease, padding-left 0.3s ease;
+}
+
+.footer-links a:hover, .footer-contact a:hover {
+    color: var(--color-blanco);
+    padding-left: 5px;
+}
+
+.footer-contact p {
+    color: #f0f8ff; /* AliceBlue */
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+}
+
+.footer-contact i {
+    margin-right: 10px;
+    color: var(--color-destacado-oro);
+    width: 20px;
+    text-align: center;
+}
+
+.social-links {
+    display: flex;
+    gap: 1.5rem; /* Más espacio entre iconos */
+}
+
+.social-links a {
+    color: var(--color-blanco);
+    font-size: 1.5rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-links a:hover {
+    transform: scale(1.2);
+    color: var(--color-destacado-oro); /* Resalta en dorado al pasar el ratón */
+}
+
+.sub-footer {
+    background-color: rgba(0, 0, 0, 0.1); /* Fondo sutilmente más oscuro para el sub-footer */
+    padding: 1.5rem 0;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-content p { margin: 0; }
+
+/* --- Contenedor para botones CTA --- */
+.cta-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* --- Estilos para el Botón Genérico --- */
+.btn {
+    display: inline-block;
+    background-color: var(--color-primario-azul);
+    color: var(--color-blanco);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* --- Estilos para el Paginador --- */
+.pagination-container {
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
+.pagination-btn {
+    background-color: var(--color-blanco);
+    border: 2px solid var(--color-primario-azul);
+    color: var(--color-primario-azul);
+    padding: 8px 16px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination-btn:hover,
+.pagination-btn.active {
+    background-color: var(--color-primario-azul);
+    color: var(--color-blanco);
+}
+
+/* --- Diseño Responsivo (General) --- */
+@media (max-width: 768px) {
+    .hamburger-menu {
+        display: block; /* Visible en móvil */
+    }
+
+    .main-nav {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Empieza fuera de la pantalla */
+        width: 70%;
+        height: 100vh;
+        background-color: var(--color-fondo-crema);
+        box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+        transition: right 0.4s ease-in-out;
+        padding-top: 80px;
+    }
+
+    .main-nav.is-active {
+        right: 0; /* Se desliza a la vista */
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    /* Animación del botón de hamburguesa a una 'X' */
+    .hamburger-menu.is-active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger-menu.is-active span:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger-menu.is-active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .content-section h2 {
+        font-size: 2rem;
+    }
+
+    /* Estilos para el submenú en móvil */
+    .dropdown-menu {
+        position: static; /* Cambia de absoluto a estático */
+        background-color: #e9ecef; /* Un color ligeramente diferente para distinguirlo */
+        box-shadow: none;
+        border-radius: 0;
+        min-width: auto;
+        padding: 0;
+        max-height: 0; /* Oculto por defecto */
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out; /* Animación de despliegue */
+    }
+
+    .dropdown.open .dropdown-menu {
+        max-height: 500px; /* Altura suficiente para mostrar los elementos */
+        padding: 0.5rem 0; /* Padding cuando está abierto */
+    }
+
+    .dropdown-menu li a {
+        padding: 0.75rem 2rem; /* Ajusta el padding para móvil */
+        text-align: center;
+    }
+
+    .dropdown.open .dropdown-toggle i {
+        transform: rotate(180deg); /* Gira la flecha cuando está abierto */
+    }
+
+    .footer-grid {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
+/* --- Estilos para el Lightbox --- */
+.lightbox {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-content {
+    margin: auto;
+    display: block;
+    max-width: 80%;
+    max-height: 80%;
+    animation: zoom 0.6s;
+}
+
+@keyframes zoom {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus {
+    color: #bbb;
+    text-decoration: none;
+}
+
+/* --- Estilos para el Botón "Volver Arriba" --- */
+.back-to-top-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--color-primario-azul);
+    color: var(--color-blanco);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.4s, visibility 0.4s, transform 0.3s;
+    z-index: 999;
+}
+
+.back-to-top-btn.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Animación de entrada al hacer scroll --- */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Estilos para el Modal de Texto --- */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--color-blanco);
+    margin: auto;
+    padding: 0; /* Eliminamos el padding para dar control total a las secciones internas */
+    border-radius: 10px;
+    border-top: 5px solid var(--color-primario-azul); /* Borde azul superior */
+    max-width: 90%;
+    width: 700px;
+    position: relative;
+    animation: zoom 0.5s;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    overflow: hidden; /* Para que el borde redondeado afecte a los hijos */
+}
+
+/* Estilos para el contenido del modal de reflexión */
+#modal-text-content {
+    padding: 2rem 2.5rem; /* Padding interno para el texto */
+    max-height: 70vh; /* Altura máxima para permitir scroll si el contenido es largo */
+    overflow-y: auto; /* Habilita el scroll vertical si es necesario */
+}
+
+#modal-text-content h4 {
+    color: var(--color-primario-azul);
+    font-family: var(--fuente-encabezados);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-close:hover { color: #333; }
+
+/* Estilo para citas bíblicas dentro de tarjetas */
+.bible-verse-card {
+    font-style: italic;
+    color: #666;
+    font-size: 0.9rem;
+    text-align: right;
+    margin-top: 1rem;
+}
