@@ -646,6 +646,133 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ===============================================
+    // LÓGICA PARA REPRODUCTORES DE AUDIO (Pausar otros al reproducir)
+    // ===============================================
+    function setupExclusiveAudioPlayback() {
+        const audioPlayers = document.querySelectorAll('audio');
+
+        if (audioPlayers.length === 0) {
+            return;
+        }
+
+        // Función para quitar la clase de resaltado de todas las tarjetas de audio
+        function removePlayingClassFromAll() {
+            document.querySelectorAll('.audio-card.is-playing').forEach(card => {
+                card.classList.remove('is-playing');
+            });
+        }
+
+        audioPlayers.forEach(player => {
+            const card = player.closest('.audio-card');
+            if (!card) return;
+
+            player.addEventListener('play', () => {
+                // 1. Quitar el resaltado de cualquier otra tarjeta
+                removePlayingClassFromAll();
+                // 2. Resaltar la tarjeta actual
+                card.classList.add('is-playing');
+                // 3. Pausar todos los demás audios
+                audioPlayers.forEach(otherPlayer => {
+                    if (otherPlayer !== player) {
+                        otherPlayer.pause();
+                    }
+                });
+            });
+
+            // Quitar el resaltado cuando el audio se pausa o termina
+            player.addEventListener('pause', () => card.classList.remove('is-playing'));
+            player.addEventListener('ended', () => card.classList.remove('is-playing'));
+        });
+    }
+
+    // Llamar a la función para que se active en las páginas que tengan audios.
+    setupExclusiveAudioPlayback();
+
+    // ===============================================
+    // LÓGICA DE VALIDACIÓN DEL FORMULARIO DE CONTACTO
+    // ===============================================
+    const contactForm = document.getElementById('contact-form');
+
+    if (contactForm) {
+        const formStatusMessage = document.getElementById('form-status-message');
+
+        // Función para mostrar un error en un campo específico
+        const showError = (input, message) => {
+            const formGroup = input.parentElement;
+            const errorDisplay = formGroup.querySelector('.error-message');
+            
+            input.classList.add('has-error');
+            errorDisplay.textContent = message;
+            errorDisplay.classList.add('active');
+        };
+
+        // Función para limpiar el error de un campo
+        const clearError = (input) => {
+            const formGroup = input.parentElement;
+            const errorDisplay = formGroup.querySelector('.error-message');
+
+            input.classList.remove('has-error');
+            errorDisplay.textContent = '';
+            errorDisplay.classList.remove('active');
+        };
+
+        // Función para validar el formato del email
+        const isValidEmail = (email) => {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        };
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevenir el envío real del formulario
+
+            let isValid = true;
+            const inputs = contactForm.querySelectorAll('input[required], textarea[required]');
+
+            // Limpiar errores previos y mensajes de estado
+            inputs.forEach(input => clearError(input));
+            formStatusMessage.style.display = 'none';
+            formStatusMessage.className = '';
+
+            // Validar cada campo requerido
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    showError(input, 'Este campo es obligatorio.');
+                } else if (input.type === 'email' && !isValidEmail(input.value)) {
+                    isValid = false;
+                    showError(input, 'Por favor, introduce un correo electrónico válido.');
+                }
+            });
+
+            if (isValid) {
+                // Simulación de envío exitoso
+                console.log('Formulario válido, enviando...');
+                
+                // Mostrar mensaje de éxito
+                formStatusMessage.textContent = '¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.';
+                formStatusMessage.classList.add('success');
+                formStatusMessage.style.display = 'block';
+
+                // Limpiar el formulario
+                contactForm.reset();
+
+                // Ocultar el mensaje de éxito después de 5 segundos
+                setTimeout(() => {
+                    formStatusMessage.style.display = 'none';
+                }, 5000);
+
+            } else {
+                // Mostrar mensaje de error general
+                formStatusMessage.textContent = 'Por favor, corrige los errores en el formulario.';
+                formStatusMessage.classList.add('error');
+                formStatusMessage.style.display = 'block';
+                console.log('El formulario contiene errores.');
+            }
+        });
+    }
+
+
+    // ===============================================
     // LÓGICA PARA EL BOTÓN "VOLVER ARRIBA"
     // ===============================================
     const backToTopBtn = document.getElementById('back-to-top-btn');
