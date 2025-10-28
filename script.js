@@ -151,6 +151,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let accordionInterval;
         let currentAccordionIndex = 0;
 
+        // Detectar si es un dispositivo táctil para cambiar el evento de activación
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
         function activatePanel(panelToActivate) {
             panels.forEach(p => {
                 p.classList.remove('active');
@@ -178,23 +181,18 @@ document.addEventListener('DOMContentLoaded', () => {
             accordionInterval = null; // Resetea la variable del intervalo
         }
 
-        if (panels.length > 1) {
+        // Solo activar la lógica del acordeón en dispositivos NO táctiles (escritorio)
+        if (panels.length > 1 && !isTouchDevice) {
             // Inicializar atributos ARIA en los paneles
             panels.forEach((panel, index) => {
                 panel.setAttribute('aria-expanded', panel.classList.contains('active') ? 'true' : 'false');
-            });
-            // Evento de clic en cada panel
-            panels.forEach((panel, index) => {
                 panel.addEventListener('mouseenter', () => {
                     stopAccordion(); // Detiene el ciclo automático al interactuar
                     activatePanel(panel);
                 });
             });
-
-            // Pausar al pasar el ratón, reanudar al quitarlo
             accordionContainer.addEventListener('mouseenter', stopAccordion);
             accordionContainer.addEventListener('mouseleave', startAccordion);
-
             startAccordion(); // Inicia el acordeón dinámico
         }
     }

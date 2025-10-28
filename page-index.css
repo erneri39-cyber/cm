@@ -460,8 +460,26 @@
 
     .accordion-container {
         flex-direction: column;
-        min-height: auto;
-        height: auto;
+        /* Nuevo: Convertir en cuadrícula en lugar de columna flex */
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Dos columnas */
+        gap: 1rem; /* Espacio entre tarjetas */
+    }
+    
+    .accordion-panel {
+        height: 150px; /* Altura fija para cada tarjeta de la cuadrícula */
+        flex: auto; /* Anular el comportamiento flex del escritorio */
+    }
+
+    /* En móvil, el título siempre es visible y no hay panel "activo" */
+    .accordion-panel h3 {
+        opacity: 1;
+        transform: translateY(0);
+        font-size: 1rem; /* Tamaño de fuente más pequeño para móvil */
+    }
+
+    .accordion-panel.active {
+        height: 150px; /* La altura no cambia al estar "activo" */
     }
 
     .carousel-slide h1 {
