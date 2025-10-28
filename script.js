@@ -644,6 +644,62 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     setupProyectosFilter();
 
+    // ===============================================
+    // LÓGICA PARA VIDEOS DE YOUTUBE (VIDEOCATEQUESIS.HTML)
+    // ===============================================
+    function setupYouTubeVideoHandling() {
+        const videoGrid = document.getElementById('galeria-videos');
+        if (!videoGrid) return; // Solo se ejecuta en la página de videocatequesis
+
+        // Cargar la API de YouTube IFrame de forma asíncrona
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        let youtubePlayers = [];
+
+        // Esta función se llama automáticamente cuando la API de YouTube está lista
+        window.onYouTubeIframeAPIReady = function() {
+            const iframes = videoGrid.querySelectorAll('iframe');
+            iframes.forEach(iframe => {
+                const player = new YT.Player(iframe.id, {
+                    events: {
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+                youtubePlayers.push(player);
+            });
+        };
+
+        // Función que se dispara cuando el estado de un video cambia
+        function onPlayerStateChange(event) {
+            const videoCard = event.target.getIframe().closest('.video-card');
+            if (!videoCard) return;
+
+            // Función para quitar el resaltado de todas las tarjetas de video
+            const removePlayingClassFromAll = () => {
+                videoGrid.querySelectorAll('.video-card.is-playing').forEach(card => {
+                    card.classList.remove('is-playing');
+                });
+            };
+
+            // Si el video se está reproduciendo (estado PLAYING)
+            if (event.data === YT.PlayerState.PLAYING) {
+                removePlayingClassFromAll();
+                videoCard.classList.add('is-playing');
+
+                // Recorrer todos los reproductores
+                youtubePlayers.forEach(player => {
+                    // Si el reproductor no es el que inició el evento y está reproduciendo, pausarlo
+                    if (player !== event.target) player.pauseVideo();
+                });
+            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+                videoCard.classList.remove('is-playing');
+            }
+        }
+    }
+    setupYouTubeVideoHandling();
 
 
     // ===============================================

@@ -19,9 +19,7 @@
             <a href="index.html" class="logo">
                 <img src="img/logo_cm.jpeg" alt="Logo Ministerio Cristomaría">
             </a>
-            <nav class="main-nav">
-                <a href="index.html#mediateca" class="btn">← Volver a Mediateca</a>
-            </nav>
+            <a href="index.html#mediateca" class="btn btn-volver">← Volver a Mediateca</a>
         </div>
     </header>
 
@@ -46,7 +44,7 @@
                 <!-- Video Item 1 -->
                 <div class="video-card" data-date="2022-03">
                     <div class="video-embed-container">
-                        <iframe src="https://www.youtube.com/embed/gwarhEb1wZg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe id="video-player-1" src="https://www.youtube.com/embed/gwarhEb1wZg?enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div class="video-content">
                         <h3>Oración de Ester</h3>
@@ -59,7 +57,7 @@
                 <!-- Video Item 2 -->
                 <div class="video-card" data-date="2021-09">
                     <div class="video-embed-container">
-                        <iframe src="https://www.youtube.com/embed/eCBa04UCKQU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe id="video-player-2" src="https://www.youtube.com/embed/eCBa04UCKQU?enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div class="video-content">
                         <h3>Tema: Perdonar para sanar</h3>
@@ -110,6 +108,9 @@
             </div>
         </div>
     </footer>
+
+    <!-- Botón Volver Arriba -->
+    <a href="#" id="back-to-top-btn" class="back-to-top-btn" title="Volver arriba"><i class="fas fa-arrow-up"></i></a>
 
     <script src="script.js" defer></script>
 </body>
