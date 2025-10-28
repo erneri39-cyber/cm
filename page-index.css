@@ -919,6 +919,14 @@
     background-color: var(--color-destacado-oro); /* Mantiene el color de fondo */
 }
 
+@media (max-width: 768px) {
+    .music-control-btn {
+        right: auto; /* Anula la posición derecha */
+        left: 20px; /* Lo posiciona a la izquierda */
+    }
+}
+
+
 @media (max-width: 992px) {
     .comunidad-cta-container {
         text-align: center;
