@@ -578,6 +578,13 @@ body {
         gap: 1rem;
         width: 100%;
     }
+    
+    /* Oculta los elementos de la lista por defecto en móvil para evitar fugas visuales */
+    .main-nav ul li {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease-in-out;
+    }
 
     /* Animación del botón de hamburguesa a una 'X' */
     .hamburger-menu.is-active span:nth-child(1) {
@@ -588,6 +595,12 @@ body {
     }
     .hamburger-menu.is-active span:nth-child(3) {
         transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Muestra los elementos de la lista cuando el menú está activo */
+    .main-nav.is-active ul li {
+        opacity: 1;
+        visibility: visible;
     }
 
     .content-section h2 {
