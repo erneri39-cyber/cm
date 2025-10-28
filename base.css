@@ -344,6 +344,52 @@ body {
     margin-top: 1rem;
 }
 
+/* Estilos para la miniatura de video */
+.video-thumbnail {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    background-color: #000;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.video-thumbnail img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.video-thumbnail:hover img {
+    transform: scale(1.05);
+}
+
+.play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.video-thumbnail:hover .play-icon {
+    color: var(--color-destacado-oro);
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
 .audio-card.is-playing,
 .video-card.is-playing {
     box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4), 0 0 0 3px var(--color-primario-azul);
@@ -384,7 +430,7 @@ body {
 
 .footer-grid {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around; /* Cambiado para mejor distribución con 4 columnas */
     flex-wrap: wrap;
     gap: 2rem;
     padding-bottom: 3rem;
@@ -740,6 +786,11 @@ body {
     transform: translateY(0);
 }
 
+.back-to-top-btn:focus {
+    outline: 2px solid var(--color-destacado-oro);
+    outline-offset: 2px;
+}
+
 /* --- Animación de entrada al hacer scroll --- */
 .animate-on-scroll {
     opacity: 0;
@@ -814,4 +865,50 @@ body {
     font-size: 0.9rem;
     text-align: right;
     margin-top: 1rem;
+}
+
+/* --- Estilos para el Banner de Cookies --- */
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: var(--color-blanco);
+    padding: 1rem;
+    z-index: 2001; /* Por encima de la mayoría de los elementos */
+    transform: translateY(100%);
+    transition: transform 0.5s ease-in-out;
+    display: none; /* Oculto hasta que JS lo muestre */
+}
+
+.cookie-banner.show {
+    transform: translateY(0);
+}
+
+.cookie-banner-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    gap: 1.5rem;
+}
+
+.cookie-banner p {
+    margin: 0;
+    text-align: left;
+}
+
+.cookie-banner a {
+    color: var(--color-destacado-oro);
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .cookie-banner-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
 }

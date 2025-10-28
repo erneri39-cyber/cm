@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evangelio del Día - Ministerio Cristomaría</title>
     <link rel="icon" href="img/logo_cm.jpeg" type="image/jpeg">
+    <!-- Metadatos Open Graph para Redes Sociales -->
+    <meta property="og:title" content="Evangelio del Día - Ministerio Cristomaría">
+    <meta property="og:description" content="Reflexiones diarias para alimentar tu espíritu.">
+    <meta property="og:image" content="https://www.cristomaria.org/evang-dia/img_evan_hoy/2025_10_21_evangelio de hoy.jpg">
+    <meta property="og:url" content="https://www.cristomaria.org/evangelio.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Ministerio Cristomaría">
+    <meta property="og:locale" content="es_ES">
+    <!-- Metadatos Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@cristomaria_sv"> <!-- Reemplazar con el usuario de Twitter del ministerio -->
+    <meta name="twitter:title" content="Evangelio del Día - Ministerio Cristomaría">
+    <meta name="twitter:description" content="Reflexiones diarias para alimentar tu espíritu.">
+    <meta name="twitter:image" content="https://www.cristomaria.org/evang-dia/img_evan_hoy/2025_10_21_evangelio de hoy.jpg">
     <!-- Google Fonts: Carga asíncrona para mejor rendimiento -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap">
@@ -106,7 +120,7 @@ Celebramos a San Contardo Ferrini,profesor universitario; y a San Juan Pablo II 
     </div>
 
     <!-- Botón Volver Arriba -->
-    <a href="#" id="back-to-top-btn" class="back-to-top-btn" title="Volver arriba"><i class="fas fa-arrow-up"></i></a>
+    <a href="#" id="back-to-top-btn" class="back-to-top-btn" role="button" aria-label="Volver arriba"><i class="fas fa-arrow-up"></i></a>
 
     <footer class="main-footer">
         <div class="container">
@@ -118,12 +132,25 @@ Celebramos a San Contardo Ferrini,profesor universitario; y a San Juan Pablo II 
                 <div class="footer-column footer-links">
                     <h4>Navegación</h4>
                     <ul>
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#quienes-somos">Quiénes Somos</a></li>
+                        <li><a href="index.html#inicio">Inicio</a></li>
+                        <li><a href="index.html#quienes-somos">Quiénes Somos</a></li>
                         <li><a href="index.html#mediateca">Mediateca</a></li>
                         <li><a href="caravanas.html">Caravanas</a></li>
                         <li><a href="comunidades.html">Comunidades</a></li>
                         <li><a href="fundacion.html">Fundación</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column footer-sitemap">
+                    <h4>Mapa del Sitio</h4>
+                    <ul>
+                        <li><a href="index.html">Página Principal</a></li>
+                        <li><a href="audios.html">Catequesis en Audio</a></li>
+                        <li><a href="evangelio.html">Evangelio del Día</a></li>
+                        <li><a href="videocatequesis.html">Videocatequesis</a></li>
+                        <li><a href="oraciones.html">Oraciones</a></li>
+                        <li><a href="caravanas.html">Todas las Caravanas</a></li>
+                        <li><a href="obras.html">Todas las Obras</a></li>
+                        <li><a href="comunidades.html">Nuestras Comunidades</a></li>
                     </ul>
                 </div>
                 <div class="footer-column footer-contact">
@@ -145,6 +172,14 @@ Celebramos a San Contardo Ferrini,profesor universitario; y a San Juan Pablo II 
             </div>
         </div>
     </footer>
+
+    <!-- Banner de Consentimiento de Cookies -->
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-banner-content">
+            <p>Utilizamos cookies para mejorar tu experiencia en nuestro sitio web. Al continuar navegando, aceptas nuestro uso de cookies. Para más información, consulta nuestra <a href="politica-privacidad.html">Política de Privacidad</a>.</p>
+            <button id="accept-cookies-btn" class="btn">Aceptar</button>
+        </div>
+    </div>
 
     <script src="script.js" defer></script>
 </body>

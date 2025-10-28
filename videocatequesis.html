@@ -5,8 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Videocatequesis Virtual - Ministerio Cristomaría</title>
     <link rel="icon" href="img/logo_cm.jpeg" type="image/jpeg">
+    <!-- Metadatos Open Graph para Redes Sociales -->
+    <meta property="og:title" content="Videocatequesis Virtual - Ministerio Cristomaría">
+    <meta property="og:description" content="Enseñanzas y reflexiones en formato de video para crecer en la fe.">
+    <meta property="og:image" content="https://i.ytimg.com/vi/gwarhEb1wZg/hqdefault.jpg">
+    <meta property="og:url" content="https://www.cristomaria.org/videocatequesis.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Ministerio Cristomaría">
+    <meta property="og:locale" content="es_ES">
+    <!-- Metadatos Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@cristomaria_sv"> <!-- Reemplazar con el usuario de Twitter del ministerio -->
+    <meta name="twitter:title" content="Videocatequesis Virtual - Ministerio Cristomaría">
+    <meta name="twitter:description" content="Enseñanzas y reflexiones en formato de video para crecer en la fe.">
+    <meta name="twitter:image" content="https://i.ytimg.com/vi/gwarhEb1wZg/hqdefault.jpg">
     <!-- Google Fonts: Carga asíncrona para mejor rendimiento -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Pre-conectar al dominio de imágenes de YouTube para una carga más rápida de miniaturas -->
+    <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="base.css">
@@ -44,7 +60,11 @@
                 <!-- Video Item 1 -->
                 <div class="video-card" data-date="2022-03">
                     <div class="video-embed-container">
-                        <iframe id="video-player-1" src="https://www.youtube.com/embed/gwarhEb1wZg?enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <!-- Reemplazado por una miniatura que abrirá el modal -->
+                        <div class="video-thumbnail" data-video-id="gwarhEb1wZg">
+                            <img src="https://i.ytimg.com/vi/gwarhEb1wZg/hqdefault.jpg" alt="Miniatura del video Oración de Ester" loading="lazy">
+                            <div class="play-icon"><i class="fas fa-play"></i></div>
+                        </div>
                     </div>
                     <div class="video-content">
                         <h3>Oración de Ester</h3>
@@ -57,7 +77,11 @@
                 <!-- Video Item 2 -->
                 <div class="video-card" data-date="2021-09">
                     <div class="video-embed-container">
-                        <iframe id="video-player-2" src="https://www.youtube.com/embed/eCBa04UCKQU?enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <!-- Reemplazado por una miniatura que abrirá el modal -->
+                        <div class="video-thumbnail" data-video-id="eCBa04UCKQU">
+                            <img src="https://i.ytimg.com/vi/eCBa04UCKQU/hqdefault.jpg" alt="Miniatura del video Perdonar para sanar" loading="lazy">
+                            <div class="play-icon"><i class="fas fa-play"></i></div>
+                        </div>
                     </div>
                     <div class="video-content">
                         <h3>Tema: Perdonar para sanar</h3>
@@ -68,6 +92,7 @@
                 </div>
                 <!-- Añade más tarjetas de video aquí -->
             </div>
+            <div id="pagination-container" class="pagination-container"></div>
         </section>
     </main>
 
@@ -81,12 +106,25 @@
                 <div class="footer-column footer-links">
                     <h4>Navegación</h4>
                     <ul>
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#quienes-somos">Quiénes Somos</a></li>
-                        <li><a href="#mediateca">Mediateca</a></li>
+                        <li><a href="index.html#inicio">Inicio</a></li>
+                        <li><a href="index.html#quienes-somos">Quiénes Somos</a></li>
+                        <li><a href="index.html#mediateca">Mediateca</a></li>
                         <li><a href="caravanas.html">Caravanas</a></li>
                         <li><a href="comunidades.html">Comunidades</a></li>
                         <li><a href="fundacion.html">Fundación</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column footer-sitemap">
+                    <h4>Mapa del Sitio</h4>
+                    <ul>
+                        <li><a href="index.html">Página Principal</a></li>
+                        <li><a href="audios.html">Catequesis en Audio</a></li>
+                        <li><a href="evangelio.html">Evangelio del Día</a></li>
+                        <li><a href="videocatequesis.html">Videocatequesis</a></li>
+                        <li><a href="oraciones.html">Oraciones</a></li>
+                        <li><a href="caravanas.html">Todas las Caravanas</a></li>
+                        <li><a href="obras.html">Todas las Obras</a></li>
+                        <li><a href="comunidades.html">Nuestras Comunidades</a></li>
                     </ul>
                 </div>
                 <div class="footer-column footer-contact">
@@ -110,7 +148,25 @@
     </footer>
 
     <!-- Botón Volver Arriba -->
-    <a href="#" id="back-to-top-btn" class="back-to-top-btn" title="Volver arriba"><i class="fas fa-arrow-up"></i></a>
+    <a href="#" id="back-to-top-btn" class="back-to-top-btn" role="button" aria-label="Volver arriba"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="modal">
+        <div class="modal-content video-modal-content">
+            <span class="modal-close">&times;</span>
+            <div id="video-player-container" class="video-embed-container">
+                <!-- YouTube iframe se cargará aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Banner de Consentimiento de Cookies -->
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-banner-content">
+            <p>Utilizamos cookies para mejorar tu experiencia en nuestro sitio web. Al continuar navegando, aceptas nuestro uso de cookies. Para más información, consulta nuestra <a href="politica-privacidad.html">Política de Privacidad</a>.</p>
+            <button id="accept-cookies-btn" class="btn">Aceptar</button>
+        </div>
+    </div>
 
     <script src="script.js" defer></script>
 </body>

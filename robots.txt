@@ -1,0 +1,9 @@
+# robots.txt para https://www.cristomaria.org
+# Este archivo le indica a los rastreadores web qué páginas o archivos pueden o no pueden solicitar de tu sitio.
+
+User-agent: *
+# Permite el acceso a todos los rastreadores a todo el contenido.
+Allow: /
+
+# Ubicación del mapa del sitio (Sitemap) para ayudar a los rastreadores a encontrar todas tus páginas.
+Sitemap: https://www.cristomaria.org/sitemap.xml

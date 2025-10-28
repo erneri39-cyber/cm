@@ -468,11 +468,55 @@ document.addEventListener('DOMContentLoaded', () => {
         searchId: 'audio-search', selectId: 'comunidad-filter', selectAttribute: 'community'
     });
 
-    // Configurar para la página de Videocatequesis
-    setupMultiFilter({
-        gridSelector: '#galeria-videos', cardSelector: '.video-card', searchId: 'video-search',
-        startDateId: 'start-date-filter', endDateId: 'end-date-filter', dateAttribute: 'date'
-    });
+    // Configurar para la página de Videocatequesis (con paginación)
+    function setupVideocatequesisFilter() {
+        const searchElement = document.getElementById('video-search');
+        const startDateElement = document.getElementById('start-date-filter');
+        const endDateElement = document.getElementById('end-date-filter');
+
+        if (!searchElement || !startDateElement || !endDateElement) return;
+
+        const cards = document.querySelectorAll('#galeria-videos .video-card');
+        const pagination = setupPagination('#galeria-videos .video-grid', '.video-card', 4); // 4 videos por página
+
+        function applyFilters() {
+            const searchTerm = searchElement.value.toLowerCase();
+            const startDateValue = startDateElement.value;
+            const endDateValue = endDateElement.value;
+
+            let filterStartDate = startDateValue ? new Date(startDateValue + 'T00:00:00Z') : null;
+            let filterEndDate = endDateValue ? new Date(endDateValue + 'T23:59:59Z') : null;
+
+            const visibleCards = [];
+
+            cards.forEach(card => {
+                // 1. Filtro por Búsqueda
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const searchMatch = title.includes(searchTerm);
+
+                // 2. Filtro por Rango de Fechas
+                let dateMatch = true;
+                const cardDateStr = card.dataset.date; // Espera YYYY-MM
+                if (cardDateStr) {
+                    const cardMonthStart = new Date(cardDateStr + '-01T00:00:00Z');
+                    const cardMonthEnd = new Date(cardMonthStart.getUTCFullYear(), cardMonthStart.getUTCMonth() + 1, 0);
+                    cardMonthEnd.setUTCHours(23, 59, 59, 999);
+
+                    dateMatch = (!filterStartDate || cardMonthEnd >= filterStartDate) &&
+                                (!filterEndDate || cardMonthStart <= filterEndDate);
+                } else if (filterStartDate || filterEndDate) {
+                    dateMatch = false;
+                }
+
+                if (searchMatch && dateMatch) {
+                    visibleCards.push(card);
+                }
+            });
+            pagination.update(visibleCards);
+        }
+        [searchElement, startDateElement, endDateElement].forEach(el => el.addEventListener('input', applyFilters));
+    }
+    setupVideocatequesisFilter();
 
     // ===============================================
     // LÓGICA DE PAGINACIÓN GENÉRICA
@@ -645,61 +689,119 @@ document.addEventListener('DOMContentLoaded', () => {
     setupProyectosFilter();
 
     // ===============================================
-    // LÓGICA PARA VIDEOS DE YOUTUBE (VIDEOCATEQUESIS.HTML)
+    // LÓGICA PARA VIDEOS DE YOUTUBE EN MODAL (VIDEOCATEQUESIS.HTML)
     // ===============================================
-    function setupYouTubeVideoHandling() {
+    function setupVideoModalPlayback() {
         const videoGrid = document.getElementById('galeria-videos');
         if (!videoGrid) return; // Solo se ejecuta en la página de videocatequesis
 
-        // Cargar la API de YouTube IFrame de forma asíncrona
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        const videoModal = document.getElementById('video-modal');
+        const videoPlayerContainer = document.getElementById('video-player-container');
+        const modalCloseBtn = videoModal.querySelector('.modal-close');
+        let currentYouTubePlayer = null; // Para la instancia del reproductor de YouTube en el modal
+        let activeVideoCard = null; // Para mantener referencia a la tarjeta activa
 
-        let youtubePlayers = [];
+        // Cargar la API de YouTube IFrame de forma asíncrona si no está ya cargada
+        if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
 
         // Esta función se llama automáticamente cuando la API de YouTube está lista
+        // Se define globalmente para que la API de YouTube pueda llamarla
         window.onYouTubeIframeAPIReady = function() {
-            const iframes = videoGrid.querySelectorAll('iframe');
-            iframes.forEach(iframe => {
-                const player = new YT.Player(iframe.id, {
-                    events: {
-                        'onStateChange': onPlayerStateChange
-                    }
-                });
-                youtubePlayers.push(player);
-            });
+            // No hacemos nada aquí directamente, la instancia del reproductor se crea al abrir el modal
         };
 
-        // Función que se dispara cuando el estado de un video cambia
-        function onPlayerStateChange(event) {
-            const videoCard = event.target.getIframe().closest('.video-card');
-            if (!videoCard) return;
+        // Función para abrir el modal y cargar el video
+        function openVideoModal(videoId, cardElement) {
+            // Pausar cualquier audio que se esté reproduciendo
+            document.querySelectorAll('audio').forEach(audio => audio.pause());
+            document.querySelectorAll('.audio-card.is-playing').forEach(card => card.classList.remove('is-playing'));
 
-            // Función para quitar el resaltado de todas las tarjetas de video
-            const removePlayingClassFromAll = () => {
-                videoGrid.querySelectorAll('.video-card.is-playing').forEach(card => {
-                    card.classList.remove('is-playing');
-                });
-            };
+            // Limpiar cualquier reproductor anterior y contenido
+            if (currentYouTubePlayer) {
+                currentYouTubePlayer.destroy(); // Destruir la instancia anterior
+                currentYouTubePlayer = null;
+            }
+            videoPlayerContainer.innerHTML = ''; // Limpiar el contenedor
 
-            // Si el video se está reproduciendo (estado PLAYING)
-            if (event.data === YT.PlayerState.PLAYING) {
-                removePlayingClassFromAll();
-                videoCard.classList.add('is-playing');
+            // Crear el iframe para el nuevo video
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
+            iframe.frameBorder = "0";
+            iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+            iframe.allowFullscreen = true;
+            videoPlayerContainer.appendChild(iframe);
 
-                // Recorrer todos los reproductores
-                youtubePlayers.forEach(player => {
-                    // Si el reproductor no es el que inició el evento y está reproduciendo, pausarlo
-                    if (player !== event.target) player.pauseVideo();
-                });
-            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
-                videoCard.classList.remove('is-playing');
+            videoModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Bloquear scroll del fondo
+
+            // Crear la nueva instancia del reproductor de YouTube
+            currentYouTubePlayer = new YT.Player(iframe, {
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+
+            // Resaltar la tarjeta de video que se abrió
+            videoGrid.querySelectorAll('.video-card.is-playing').forEach(card => card.classList.remove('is-playing'));
+            cardElement.classList.add('is-playing');
+            activeVideoCard = cardElement;
+        }
+
+        // Función para cerrar el modal y detener el video
+        function closeVideoModal() {
+            if (currentYouTubePlayer) {
+                currentYouTubePlayer.stopVideo();
+                currentYouTubePlayer.destroy(); // Destruir la instancia del reproductor
+                currentYouTubePlayer = null;
+            }
+            videoPlayerContainer.innerHTML = ''; // Limpiar el iframe
+            videoModal.style.display = 'none';
+            document.body.style.overflow = ''; // Restaurar scroll
+            if (activeVideoCard) {
+                activeVideoCard.classList.remove('is-playing');
+                activeVideoCard = null;
             }
         }
+
+        // Manejador de estado del reproductor de YouTube (para el resaltado)
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED || event.data === YT.PlayerState.PAUSED) {
+                if (activeVideoCard) {
+                    activeVideoCard.classList.remove('is-playing');
+                }
+            }
+        }
+
+        // Event listener para hacer clic en las miniaturas de video
+        videoGrid.querySelectorAll('.video-thumbnail').forEach(thumbnail => {
+            thumbnail.addEventListener('click', () => {
+                const videoId = thumbnail.dataset.videoId;
+                const videoCard = thumbnail.closest('.video-card');
+                if (videoId && videoCard) {
+                    openVideoModal(videoId, videoCard);
+                }
+            });
+        });
+
+        // Event listeners para cerrar el modal
+        modalCloseBtn.addEventListener('click', closeVideoModal);
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) {
+                closeVideoModal();
+            }
+        });
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && videoModal.style.display === 'flex') {
+                closeVideoModal();
+            }
+        });
     }
-    setupYouTubeVideoHandling();
+    setupVideoModalPlayback(); // Llamar a la nueva función
 
 
     // ===============================================

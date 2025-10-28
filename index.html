@@ -5,6 +5,21 @@
     <meta name="description" content="Ministerio Cristomaría: una comunidad de laicos comprometidos con la evangelización, las obras de misericordia y el servicio, inspirados en el amor de Cristo y la devoción a María.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ministerio Cristomaría - Evangelización y Servicio Comunitario</title>
+    <!-- Metadatos Open Graph para Redes Sociales -->
+    <meta property="og:title" content="Ministerio Cristomaría - Evangelización y Servicio Comunitario">
+    <meta property="og:description" content="Una comunidad de laicos comprometidos con la evangelización, las obras de misericordia y el servicio.">
+    <meta property="og:image" content="https://www.cristomaria.org/img/a01.jpg">
+    <meta property="og:url" content="https://www.cristomaria.org/index.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Ministerio Cristomaría">
+    <meta property="og:locale" content="es_ES">
+    <!-- Metadatos Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@cristomaria_sv"> <!-- Reemplazar con el usuario de Twitter del ministerio -->
+    <meta name="twitter:title" content="Ministerio Cristomaría - Evangelización y Servicio Comunitario">
+    <meta name="twitter:description" content="Una comunidad de laicos comprometidos con la evangelización, las obras de misericordia y el servicio.">
+    <meta name="twitter:image" content="https://www.cristomaria.org/img/a01.jpg">
+
     <link rel="icon" href="img/logo_cm.jpeg" type="image/jpeg">
     <!-- Google Fonts: Carga asíncrona para mejor rendimiento -->
     <script type="application/ld+json">
@@ -46,7 +61,7 @@
             <a href="index.html" class="logo">
                 <img src="img/logo_cm.jpeg" alt="Logo Ministerio Cristomaría">
             </a>
-            <nav class="main-nav">
+            <nav id="main-navigation" class="main-nav">
                 <!-- El contenido del menú se restaura aquí -->
                  <ul>
                      <li><a href="#inicio">Inicio</a></li>
@@ -62,7 +77,7 @@
                  </ul>
             </nav>
             <!-- Atributos ARIA para accesibilidad del menú móvil -->
-            <button class="hamburger-menu" aria-label="Abrir menú de navegación" aria-controls="main-nav-list" aria-expanded="false">
+            <button class="hamburger-menu" aria-label="Abrir menú de navegación" aria-controls="main-navigation" aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
         </div>
@@ -431,6 +446,19 @@ El 15 de septiembre de 2003, el Señor llamó a un grupo de jóvenes a vivir rad
                         <li><a href="fundacion.html">Fundación</a></li>
                     </ul>
                 </div>
+                <div class="footer-column footer-sitemap">
+                    <h4>Mapa del Sitio</h4>
+                    <ul>
+                        <li><a href="index.html">Página Principal</a></li>
+                        <li><a href="audios.html">Catequesis en Audio</a></li>
+                        <li><a href="evangelio.html">Evangelio del Día</a></li>
+                        <li><a href="videocatequesis.html">Videocatequesis</a></li>
+                        <li><a href="oraciones.html">Oraciones</a></li>
+                        <li><a href="caravanas.html">Todas las Caravanas</a></li>
+                        <li><a href="obras.html">Todas las Obras</a></li>
+                        <li><a href="comunidades.html">Nuestras Comunidades</a></li>
+                    </ul>
+                </div>
                 <div class="footer-column footer-contact">
                     <h4>Contacto</h4>
                     <p><i class="fas fa-map-marker-alt"></i> Res. Bethania, Pje. 1 #16-A, Santa Tecla</p>
@@ -452,7 +480,7 @@ El 15 de septiembre de 2003, el Señor llamó a un grupo de jóvenes a vivir rad
     </footer>
 
     <!-- Back to Top Button -->
-    <a href="#" id="back-to-top-btn" class="back-to-top-btn" title="Volver arriba"><i class="fas fa-arrow-up"></i></a>
+    <a href="#" id="back-to-top-btn" class="back-to-top-btn" role="button" aria-label="Volver arriba"><i class="fas fa-arrow-up"></i></a>
 
     <!-- Lightbox Structure -->
     <div id="lightbox" class="lightbox">
@@ -465,6 +493,14 @@ El 15 de septiembre de 2003, el Señor llamó a un grupo de jóvenes a vivir rad
         <source src="audio/musica_de_fondo.mp3" type="audio/mpeg"> <!-- ¡IMPORTANTE! Reemplaza con la ruta a tu archivo de música -->
         Tu navegador no soporta el elemento de audio.
     </audio>
+
+    <!-- Banner de Consentimiento de Cookies -->
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-banner-content">
+            <p>Utilizamos cookies para mejorar tu experiencia en nuestro sitio web. Al continuar navegando, aceptas nuestro uso de cookies. Para más información, consulta nuestra <a href="politica-privacidad.html">Política de Privacidad</a>.</p>
+            <button id="accept-cookies-btn" class="btn">Aceptar</button>
+        </div>
+    </div>
 
     <!-- Enlace al archivo JavaScript (vacío por ahora) -->
     <script src="script.js" defer></script>
