@@ -555,19 +555,21 @@ body {
     }
 
     .main-nav {
-        position: fixed;
-        top: 0;
-        right: -100%; /* Empieza fuera de la pantalla */
-        width: 70%;
-        height: 100vh;
+        position: absolute; /* Cambiado de fixed a absolute */
+        top: 100%; /* Se posiciona justo debajo del header */
+        left: 0;
+        right: 0;
+        width: 100%;
         background-color: var(--color-fondo-crema);
-        box-shadow: -2px 0 5px rgba(0,0,0,0.2);
-        transition: right 0.4s ease-in-out;
-        padding-top: 80px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        padding: 1rem 0;
+        max-height: 0; /* Oculto por defecto */
+        overflow: hidden; /* Oculta el contenido cuando max-height es 0 */
+        transition: max-height 0.4s ease-in-out; /* Transición suave */
     }
 
     .main-nav.is-active {
-        right: 0; /* Se desliza a la vista */
+        max-height: 100vh; /* Altura suficiente para mostrar todos los enlaces */
     }
 
     .main-nav ul {

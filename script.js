@@ -49,6 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
             hamburger.classList.toggle('is-active');
             navMenu.classList.toggle('is-active');
             // Actualizar ARIA-EXPANDED para accesibilidad
+            // Añadido: Bloquear scroll del body cuando el menú está activo
+            document.body.style.overflow = navMenu.classList.contains('is-active') ? 'hidden' : '';
             hamburger.setAttribute('aria-expanded', navMenu.classList.contains('is-active'));
         });
 
@@ -70,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (navMenu.classList.contains('is-active')) {
                     hamburger.classList.remove('is-active');
                     navMenu.classList.remove('is-active');
+                    document.body.style.overflow = ''; // Restaura el scroll
                     hamburger.setAttribute('aria-expanded', 'false');
                 }
             });
