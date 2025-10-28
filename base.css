@@ -616,6 +616,27 @@ body {
         flex-direction: column;
         justify-content: center;
     }
+
+    /* --- Mejoras para Controles de Galería en Móvil --- */
+    .gallery-controls {
+        flex-direction: column; /* Apila los filtros y la búsqueda */
+        align-items: stretch; /* Estira los elementos al 100% del ancho */
+        gap: 1rem;
+    }
+
+    .filter-container {
+        flex-direction: column; /* Apila los elementos del filtro (etiquetas, inputs) */
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+
+    .filter-container label {
+        text-align: left; /* Alinea las etiquetas a la izquierda */
+    }
+
+    .search-container input {
+        width: 100%; /* El buscador ocupa todo el ancho */
+    }
 }
 
 /* --- Estilos para el Lightbox --- */
