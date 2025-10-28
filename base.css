@@ -59,6 +59,7 @@ body {
 .main-header .container {
     display: flex;
     justify-content: space-between;
+    gap: 1rem; /* Añadido para espaciar el logo del botón en móvil */
     align-items: center;
 }
 
@@ -512,6 +513,12 @@ body {
     background-color: #0056b3;
 }
 
+/* Estilo específico para el botón de volver en las subpáginas */
+.btn-volver {
+    margin-left: auto; /* Empuja el botón a la derecha */
+    margin-top: 0; /* Resetea el margen superior del botón genérico */
+}
+
 /* --- Estilos para el Paginador --- */
 .pagination-container {
     text-align: center;
@@ -540,6 +547,11 @@ body {
 @media (max-width: 768px) {
     .hamburger-menu {
         display: block; /* Visible en móvil */
+    }
+    
+    /* En móvil, el botón de volver se ajusta */
+    .btn-volver {
+        margin-left: 0; /* Quita el margen automático para que se alinee con el logo */
     }
 
     .main-nav {
