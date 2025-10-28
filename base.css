@@ -205,7 +205,7 @@ body {
     border: none;
     cursor: pointer;
     padding: 10px;
-    z-index: 1001; /* Asegura que esté sobre otros elementos */
+    z-index: 100; /* Asegura que esté sobre otros elementos */
 }
 
 .hamburger-menu span {
