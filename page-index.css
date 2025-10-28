@@ -3,6 +3,7 @@
     position: relative;
     height: 70vh;
     width: 100%;
+    z-index: -1; /* Asegura que el carrusel esté detrás del header */
     overflow: hidden;
 }
 
@@ -43,6 +44,7 @@
 
 .carousel-slide .container {
     position: relative; /* Para que el texto esté sobre la capa oscura */
+    z-index: 2; /* Asegura que el texto del carrusel sea visible */
 }
 
 .carousel-slide h1 {
